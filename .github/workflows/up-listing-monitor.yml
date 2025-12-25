@@ -1,0 +1,22 @@
+name: UP CEX Listing Monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Binance
+        run: |
+          curl -s "https://api.binance.com/api/v3/exchangeInfo?symbol=UPUSDT" || true
+
+      - name: Check Bybit
+        run: |
+          curl -s "https://api.bybit.com/spot/v1/ticker/24hr?symbol=UPUSDT" || true
+
+      - name: Check Bitget
+        run: |
+          curl -s "https://api.bitget.com/api/v2/spot/public/symbols" | grep UPUSDT || true
